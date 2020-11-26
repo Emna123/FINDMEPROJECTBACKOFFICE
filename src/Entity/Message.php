@@ -28,17 +28,17 @@ class Message
     private $date_mess;
 
     /**
-     * @ORM\ManyToOne(targetEntity=administration::class, inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity=Administration::class, inversedBy="messages")
      */
     private $admin;
 
     /**
-     * @ORM\ManyToOne(targetEntity=utilisateur::class, inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="messages")
      */
     private $utilisateur;
 
     /**
-     * @ORM\ManyToOne(targetEntity=conversation::class, inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity=Conversation::class, inversedBy="messages")
      */
     private $conversation;
 

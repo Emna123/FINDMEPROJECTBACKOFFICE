@@ -23,7 +23,7 @@ class Mutimedia
     private $source;
 
     /**
-     * @ORM\ManyToOne(targetEntity=publication::class, inversedBy="mutimedia")
+     * @ORM\ManyToOne(targetEntity=Publication::class, inversedBy="mutimedia")
      */
     private $publication;
 

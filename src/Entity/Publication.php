@@ -40,12 +40,12 @@ class Publication
     private $commentaires;
 
     /**
-     * @ORM\ManyToOne(targetEntity=utilisateur::class, inversedBy="publications")
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="publications")
      */
     private $utilisateur;
 
     /**
-     * @ORM\ManyToOne(targetEntity=administration::class, inversedBy="publications")
+     * @ORM\ManyToOne(targetEntity=Administration::class, inversedBy="publications")
      */
     private $admin;
 
