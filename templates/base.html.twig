@@ -52,13 +52,14 @@
                 </li>
 
                 <h3 class="menu-title">ADMINISTRATION</h3><!-- /.menu-title -->
-                {% if   app.user.etat == 's' %}
+                {% if   app.user.etat == 'S' %}
 
                         <li class="menu-item-has-children dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Administration</a>
                             <ul class="sub-menu children dropdown-menu">
                                 <li><i class="fa fa-eye"></i><a href=#> Administrators</a></li>
                                 <li><i class="fa fa-id-badge"></i><a href=#>Add Administrateur</a></li>
+
                             </ul>
                         </li>
                 {% endif %}
@@ -69,9 +70,18 @@
                     <a href=# > <i class="menu-icon fa fa-id-badge"></i>Users</a>
                 </li>
 
-                <li class="menu-item-has-children">
-                    <a href=# > <i class="menu-icon fa fa-th"></i>Publications</a>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Posts</a>
+                    {% if   app.user.etat == 'S' %}
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-cog"></i><a href=/manage/post> Manage Post</a></li>
+
+
+                    </ul>
+                    {% endif %}
                 </li>
+
+
 
                 <li class="menu-item-has-children">
                     <a href=# > <i class="menu-icon fa fa-envelope-o"></i>Conversations</a>
