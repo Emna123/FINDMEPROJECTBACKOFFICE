@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <style>.md-avatar.size-4 {
+            width: 110px;
+            height: 110px;
+        }
+    </style>
+
+    <div class="content mt-3 ">
+        <div class="animated fadeIn">
+            <div class="col">
+
+                {% for message in app.flashes('success') %}
+                    <div class="col-sm-10" style="margin-left: 5%;">
+                        <div class="alert  alert-success alert-dismissible fade show" role="alert">
+                            <span class="badge badge-pill badge-success">Success</span>  &nbsp;{{ message }} .
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                {% endfor %}
+                <br>
+
+
+                    {% for admin in admins %}
+                {% if   admin.username!=app.user.username %}
+                        <div class="col-md-4  ">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fa fa-user"></i><strong class="card-title pl-2">Profil</strong>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="mx-auto d-block">
+                                        {% if   admin.img=="" %}
+                                            <img  class="md-avatar rounded-circle size-4 mx-auto d-block" src="{{ asset('build/images/avatar.jpg')}}" alt="Card image cap" >
+
+
+                                        {% else%}
+                                            <img  class="md-avatar rounded-circle size-4 mx-auto d-block"src="/images/adminis/{{ admin.img}}" alt="Card image cap" >
+
+                                        {% endif %}
+
+
+                                        <h5 class="text-sm-center mt-2 mb-1">{{ admin.nom}} {{ admin.prenom}}</h5>
+                                        <div class="text-sm-center"><i class="fa ti-email"></i> <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=new">{{ admin.mail}}</a></div>
+                                        <div class="text-sm-center"><i class="fa fa-phone"></i> {{ admin.tel}}</div>
+                                        <div class="text-sm-center"><i class="fa fa-map-marker"></i> {{ admin.adresse}}</div>
+
+                                    </div>
+                                    <hr>
+                                    <div class="card-text text-sm-center">
+
+                                        <a href="{{ path('deleteadmi',{'id':admin.id}) }}"> <button type="button" class="btn btn-danger" style="width: 94px;"><i class="fa fa-minus-circle"></i>&nbsp; delete</button></a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span >
+                              <a href="{{ path('bloquer',{'id':admin.id}) }}" class="js-like">
+                                            {% if   admin.bloquer==0 %}
+                                             <label class="switch switch-text switch-primary switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                        {% else%}
+                                             <label class="switch switch-text switch-primary switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                        {% endif %}
+                                     </a>
+                                        </span>
+                                        <br><br>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+            {% endif %}
+                    {% endfor %}
+
+
+
+            </div></div></div>
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+     <script>
+         function onClickBtnLike(event){
+             event.preventDefault();
+             const url = this.href;
+
+             icone = this.querySelector("input");
+             console.log(icone);
+             axios.get(url).then(function(response){
+                // spancount.textContent=response.data.favoris;
+                 if(response.data.message==='bloqué') {icone.removeAttribute('checked');}
+                 else {
+
+                     icone.setAttribute('checked','checked');}
+                 icone.textContent=response.data.message;
+
+                 console.log(response);
+             })
+         }
+         document.querySelectorAll('a.js-like').forEach(function (link) {
+             link.addEventListener('click',onClickBtnLike)
+         });
+         </script>
+{% endblock %}
+{% endblock %}

@@ -6,10 +6,19 @@ use App\Repository\AdministrationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass=AdministrationRepository::class)
+ * @UniqueEntity("username",message = "Username already in use .")
+ * @UniqueEntity("tel",message = "Phone already in use .")
+ * @UniqueEntity("mail",message = "Email already in use .")
+ * @Vich\Uploadable()
  */
 class Administration implements UserInterface,\Serializable
 {
@@ -46,7 +55,8 @@ class Administration implements UserInterface,\Serializable
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex("/[0-9]$/",message = "Phone number contains only digits  .")
+     * @ORM\Column(type="string", length=8)
      */
     private $tel;
 
@@ -55,10 +65,7 @@ class Administration implements UserInterface,\Serializable
      */
     private $adresse;
 
-    /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
-    private $bloque;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="admin")
@@ -74,6 +81,37 @@ class Administration implements UserInterface,\Serializable
      * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="admin")
      */
     private $publications;
+
+
+    /**
+     * @Vich\UploadableField(mapping="admini_image", fileNameProperty="img")
+     *
+     * @var File|null
+     */
+    private $imageFile;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mail;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $bloquer;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $img;
+
+
+
+
 
     public function __construct()
     {
@@ -172,17 +210,9 @@ class Administration implements UserInterface,\Serializable
         return $this;
     }
 
-    public function getBloque(): ?string
-    {
-        return $this->bloque;
-    }
 
-    public function setBloque(?string $bloque): self
-    {
-        $this->bloque = $bloque;
 
-        return $this;
-    }
+
 
     /**
      * @return Collection|Message[]
@@ -316,4 +346,81 @@ class Administration implements UserInterface,\Serializable
     public function eraseCredentials()
     {
     }
+
+
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(?string $mail): self
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    public function getBloquer(): ?bool
+    {
+        return $this->bloquer;
+    }
+
+    public function setBloquer(?bool $bloquer): self
+    {
+        $this->bloquer = $bloquer;
+
+        return $this;
+    }
+    public function isBlocked(Administration $user):bool {
+
+            if($user->getBloquer()) {return true;}
+
+        return false;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     * @throws Exception
+     */
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updated_at = new \DateTime('now');
+        }
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
+
+        return $this;
+    }
+
+
 }

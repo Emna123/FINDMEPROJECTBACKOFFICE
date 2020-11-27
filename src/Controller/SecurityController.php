@@ -18,7 +18,7 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
-        if ($this->getUser()) {
+        if ($this->getUser() && $this->getUser()->getBloquer()==0) {
 
             return $this->redirectToRoute("home");
         }

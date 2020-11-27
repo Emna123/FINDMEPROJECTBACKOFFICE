@@ -52,13 +52,13 @@
                 </li>
 
                 <h3 class="menu-title">ADMINISTRATION</h3><!-- /.menu-title -->
-                {% if   app.user.etat == 's' %}
+                {% if   app.user.etat == 'S' %}
 
                         <li class="menu-item-has-children dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Administration</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Administrators</a>
                             <ul class="sub-menu children dropdown-menu">
-                                <li><i class="fa fa-eye"></i><a href=#> Administrators</a></li>
-                                <li><i class="fa fa-id-badge"></i><a href=#>Add Administrateur</a></li>
+                                <li><i class="fa fa-eye"></i><a href="{{path('administrators')}}"> Edit Administrator</a></li>
+                                <li><i class="fa fa-id-badge"></i><a href="{{path('addadmin')}}">Add Administrator</a></li>
                             </ul>
                         </li>
                 {% endif %}
@@ -66,11 +66,11 @@
 
 
                 <li class="menu-item-has-children">
-                    <a href=# > <i class="menu-icon fa fa-id-badge"></i>Users</a>
+                    <a href="{{path('users')}}"> <i class="menu-icon fa fa-id-badge"></i>Users</a>
                 </li>
 
                 <li class="menu-item-has-children">
-                    <a href=# > <i class="menu-icon fa fa-th"></i>Publications</a>
+                    <a href=# > <i class="menu-icon fa fa-th"></i>Posts</a>
                 </li>
 
                 <li class="menu-item-has-children">
@@ -174,11 +174,17 @@
             <div class="col-sm-5">
                 <div class="user-area dropdown float-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="user-avatar rounded-circle" src="{{('build/assets/images/admin.jpg')}}" alt="User Avatar">
+                        {% if   app.user.img=="" %}
+                        <img  class="user-avatar rounded-circle" src="{{ asset('build/images/avatar.jpg')}}" alt="Card image cap" >
+
+
+                        {% else%}
+                        <img class="user-avatar rounded-circle" src="/images/adminis/{{ app.user.img}}" alt="User Avatar">
+                        {% endif %}
                     </a>
 
                     <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+                        <a class="nav-link" href="{{ path('edit',{'id':app.user.id}) }}"><i class="fa fa-user"></i> My Profile</a>
 
                         <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
 
@@ -190,24 +196,10 @@
 
                 <div class="language-select dropdown" id="language-select">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
-                        <i class="flag-icon flag-icon-us"></i>
+                        <i class="flag-icon flag-icon-tn"></i>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="language">
-                        <div class="dropdown-item">
-                            <span class="flag-icon flag-icon-fr"></span>
-                        </div>
-                        <div class="dropdown-item">
-                            <i class="flag-icon flag-icon-es"></i>
-                        </div>
-                        <div class="dropdown-item">
-                            <i class="flag-icon flag-icon-us"></i>
-                        </div>
-                        <div class="dropdown-item">
-                            <i class="flag-icon flag-icon-it"></i>
-                        </div>
-                    </div>
-                </div>
 
+                </div>
             </div>
         </div>
 
@@ -245,7 +237,7 @@
 <script src="{{ asset('build/vendors/popper.js/dist/umd/popper.min.js')}}"></script>
 <script src="{{ asset('build/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <script src="{{ asset('build/assets/js/main.js')}}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script src="{{ asset('build/vendors/chart.js/dist/Chart.bundle.min.js')}}"></script>
 <script src="{{ asset('build/assets/js/dashboard.js')}}"></script>

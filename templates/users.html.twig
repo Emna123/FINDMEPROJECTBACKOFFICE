@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <style>.md-avatar.size-4 {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+    <br>
+    <div align="center">
+    <div class="w-75 text-center">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">ALL USERS</strong>
+            </div>
+            <div class="card-body">
+                <table class="table w-100"  >
+                    <thead class="thead-dark">
+                    <tr>
+
+                        <th scope="col">E-mail <i class="fa ti-email"></i>  </th>
+                        <th scope="col"> Last name</th>
+                        <th  scope="col">First name</th>
+
+                        <th class="text-center" scope="col">Blocked <i class="fa fa-minus-circle"></i></th>
+                    </tr>
+                    </thead>
+
+
+
+
+                        {% for ut in users %}
+
+                            <tr>
+                                <td scope="row" align="left"><i class="fa ti-email"></i>  {{ ut.email }}</td>
+                                <td align="center">{{ ut.nom }} </td>
+                                <td align="center">{{ ut.prenom}}</td>
+<td align="center"> <a href="{{ path('bloqueru',{'id':ut.id}) }}" class="js-like">
+        {% if   ut.bloque==0 %}
+            <label class="switch switch-text switch-danger switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
+        {% else%}
+            <label class="switch switch-text switch-danger switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
+        {% endif %}
+    </a></td>
+                            </tr>
+
+                        {% endfor %}
+
+
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            function onClickBtnLike(event){
+                event.preventDefault();
+                const url = this.href;
+                const spancount = this.querySelectorAll('.js-favoris');
+
+                icone = this.querySelector("input");
+                console.log(icone);
+                axios.get(url).then(function(response){
+
+                    if(icone.getAttribute('checked')==='checked') {icone.removeAttribute('checked');}
+                    else {
+
+                        icone.setAttribute('checked','checked');}
+
+                    console.log(response);
+                })
+            }
+            document.querySelectorAll('a.js-like').forEach(function (link) {
+                link.addEventListener('click',onClickBtnLike)
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
