@@ -18,8 +18,8 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
-        if ($this->getUser() && $this->getUser()->getBloquer()==0) {
 
+        if ($this->getUser() && $this->getUser()->getBloquer()==0) {
             return $this->redirectToRoute("home");
         }
         $error = $authenticationUtils->getLastAuthenticationError();
