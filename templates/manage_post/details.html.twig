@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-md-12">
+        <aside class="profile-nav alt">
+            <section class="card">
+                <div class="card-header user-header alt bg-dark">
+                    <div class="media">
+                        <a href="#">
+                            <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="{{ asset('build/images/avatar.jpg')}}">
+                        </a>
+
+                        <div class="media-body">
+                            <h2 class="text-light display-30" style="font-size: 19px;">{{ p.utilisateur.nom}} {{ p.utilisateur.prenom}}</h2>
+                            <p>{{p.date_pub|format_datetime()}}</p>
+                            <p>{{ p.contenu_pub}} </p>
+                        </div>
+                    </div>
+                    <div style="text-align: right"> <a href="{{ path('hide',{'id':p.id})}}">     <button type="button" class="btn btn-danger"> <i class="fa fa-lightbulb-o"> </i></button></a> &nbsp;&nbsp;      {% if   p.statut=='R' %}
+                            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                        {% else%}
+                            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                        {% endif %}
+                    </div>
+                </div>
+
+    <div class="col-lg-12">
+
+
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Victim Informations</th>
+                        <th scope="col">Victim Pictures</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="media-body">
+                            <p class="media">Victim Name &nbsp;&nbsp;&nbsp;<span style="color: black">{{ p.non}}</span></p>
+                            <p>Victim Age &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: black">  {{ p.age}} Years</span></p>
+                            <p>Victim Sexe &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                {% if    p.sexe=='F' %}
+                                <span style="color: black">  Women</span></p>
+                            {%else %}
+                                <span style="color: black">  Men</span></p>
+                            {% endif %}
+                            <p align="center">Last location Before Vanishment</p>
+<div style="width: 500px"></div>
+
+                        </td>
+                        <td> <div class="content mt-3 ">
+                                <div class="animated fadeIn">
+                                    <div class="col">
+                                        {% for m in mult %}
+
+                                                <div class="col-md-4  ">
+                                                    <div class="card">
+
+                                                        <div class="card-body ">
+                                                            <div class="mx-auto d-block">
+
+
+
+                                                                    <img  class="md-avatar size-4 mx-auto d-block" src= "/FINDMEPROJECT/public/uploads/images/{{m.source}}" alt="Card image cap"/>
+
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                        {% endfor %}
+
+
+
+                                    </div></div></div>
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+                </table>
+
+
+                <input type="button" value="COMMENTS" onclick="masquer_div('a_masquer'); " class="btn btn-secondary"style="width: 115px;" />
+                <br><br>
+                <div id="a_masquer" style="display: none">
+                    <div class="col-lg-6">
+                        <div class="card">
+
+                            <div class="card-body">
+                                <table class="table table-dark">
+                                    <tbody>
+                    {% for t in tab%}
+
+                                        <tr>
+                                            <td class="media-body">  <p style="font-size: 15px">{{ t.utilisateur.nom}} {{ t.utilisateur.prenom}}</p>   <p style="font-size: 10px">{{t.date_comnt|format_datetime()}}</p>  <div>{{t.contenu_comnt}}</div> </td>
+                                            <td><br><br> <a href="{{ path('deletecm',{'id':t.id})}}">  <i class="fa fa-trash-o"></i></a> </td>
+                                        </tr>
+
+                {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+            </section></aside></div>
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            function masquer_div(id)
+            {
+                if (document.getElementById(id).style.display === 'none')
+                {
+                    document.getElementById(id).style.display = 'block';
+                }
+                else
+                {
+                    document.getElementById(id).style.display = 'none';
+                }
+            }
+
+
+            function onClickBtnLike(event){
+                event.preventDefault();
+                const url = this.href;
+                const spancount = this.querySelectorAll('.js-favoris');
+
+                icone = this.querySelector("input");
+                console.log(icone);
+                axios.get(url).then(function(response){
+
+                    if(icone.getAttribute('checked')==='checked') {icone.removeAttribute('checked');}
+                    else {
+
+                        icone.setAttribute('checked','checked');}
+
+                    console.log(response);
+                })
+            }
+            document.querySelectorAll('a.js-like').forEach(function (link) {
+                link.addEventListener('click',onClickBtnLike)
+            });
+        </script>
+    {% endblock %}
+
+{% endblock %}

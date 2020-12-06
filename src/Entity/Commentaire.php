@@ -20,12 +20,12 @@ class Commentaire
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $date_comnt;
+    public $date_comnt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $contenu_comnt;
+    public $contenu_comnt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaires")

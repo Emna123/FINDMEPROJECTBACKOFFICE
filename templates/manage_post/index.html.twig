@@ -1,73 +1,100 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block body %}
 
 
-<div class="content ">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Basic Table</strong>
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
+    <style>.md-avatar.size-4 {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+    <br>
+    {% for message in app.flashes('success') %}
+        <div class="col-sm-10" style="margin-left: 5%;">
+            <div class="alert  alert-success alert-dismissible fade show" role="alert">
+                <span class="badge badge-pill badge-success">Success</span>  &nbsp;{{ message }} .
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+
+    {% endfor %}
+    <br>
+    <div align="center">
+        <div class="w-75 text-center">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">ALL POSTERS </strong>
+                </div>
+                <div class="card-body">
+                    <table class="table w-100"  >
+                        <thead class="thead-dark">
+                        <tr>
+
+                            <th scope="col"># ID  </th>
+                            <th scope="col"> Date </th>
+                            <th  scope="col">Owner</th>
+                            <th class="text-center" scope="col">Resolved <i class="fa fa-minus-circle"></i></th>
+                            <th class="text-center" scope="col">Action <i class="fa fa-cog"></i></th>
+                        </tr>
+                        </thead>
+
+
+
+
+                        {% for p in post%}
+                            {% if   p.archiver!=1 %}
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <td scope="row" align="left"><i class="fa fa-key"></i>  {{ p.id }}</td>
+                                <td align="center">{{p.date_pub|format_datetime()}} </td>
+                                <td align="center">{{ p.utilisateur.nom}} {{ p.utilisateur.prenom}}</td>
+                                <td align="center"> <a href="{{ path('resolu',{'id':p.id}) }}" class="js-like">
+                                        {% if   p.statut=='R' %}
+                                            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                        {% else%}
+                                            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                        {% endif %}
+                                    </a></td>
+                                <td align="center">  <a href="{{ path('details',{'id':p.id})}}">   <button type="button" class="btn btn-secondary"><i class="fa fa-rss"></i></i>&nbsp; Details</button></a>
+                                    <a href="{{ path('hide',{'id':p.id})}}">     <button type="button" class="btn btn-danger"> <i class="fa fa-lightbulb-o"> </i>&nbsp; Hide </button></a></td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>   <button type="button" class="btn btn-danger"> <i class="fa fa-rss"></i>&nbsp; Danger</button>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-magic"></i>&nbsp; Success</button>
-                                    <button type="button" class="btn btn-secondary"><i class="fa fa-lightbulb-o"></i>&nbsp; archiver</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>   <button type="button" class="btn btn-danger"> <i class="fa fa-rss"></i>&nbsp; Danger</button>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-magic"></i>&nbsp; Success</button>
-                                    <button type="button" class="btn btn-secondary"><i class="fa fa-lightbulb-o"></i>&nbsp; archiver</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>   <button type="button" class="btn btn-danger"> <i class="fa fa-rss"></i>&nbsp; Danger</button>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-magic"></i>&nbsp; Success</button>
-                                    <button type="button" class="btn btn-secondary"><i class="fa fa-lightbulb-o"></i>&nbsp; archiver</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            {% endif %}
+                        {% endfor %}
+
+
+
+                    </table>
+
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
         </div>
-    </div><!-- .animated -->
-</div><!-- .content -->
+    </div>
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            function onClickBtnLike(event){
+                event.preventDefault();
+                const url = this.href;
+                const spancount = this.querySelectorAll('.js-favoris');
 
+                icone = this.querySelector("input");
+                console.log(icone);
+                axios.get(url).then(function(response){
+
+                    if(icone.getAttribute('checked')==='checked') {icone.removeAttribute('checked');}
+                    else {
+
+                        icone.setAttribute('checked','checked');}
+
+                    console.log(response);
+                })
+            }
+            document.querySelectorAll('a.js-like').forEach(function (link) {
+                link.addEventListener('click',onClickBtnLike)
+            });
+        </script>
+    {% endblock %}
 {% endblock %}

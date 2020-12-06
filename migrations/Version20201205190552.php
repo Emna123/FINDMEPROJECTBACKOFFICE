@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20201126234627 extends AbstractMigration
+final class Version20201205190552 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,8 @@ final class Version20201126234627 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE administration ADD updated_at DATETIME DEFAULT NULL, DROP img, CHANGE tel tel VARCHAR(8) NOT NULL');
+        $this->addSql('ALTER TABLE administration ADD mail VARCHAR(255) DEFAULT NULL, ADD bloquer TINYINT(1) DEFAULT NULL, ADD updated_at DATETIME DEFAULT NULL, ADD img VARCHAR(255) DEFAULT NULL, DROP bloque, CHANGE tel tel VARCHAR(8) NOT NULL');
+        $this->addSql('ALTER TABLE utilisateur DROP verified');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +31,7 @@ final class Version20201126234627 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE administration ADD img VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci, DROP updated_at, CHANGE tel tel VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql('ALTER TABLE administration ADD bloque VARCHAR(1) DEFAULT NULL COLLATE utf8mb4_unicode_ci, DROP mail, DROP bloquer, DROP updated_at, DROP img, CHANGE tel tel VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql('ALTER TABLE utilisateur ADD verified VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci');
     }
 }

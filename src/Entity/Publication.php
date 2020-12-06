@@ -22,12 +22,12 @@ class Publication
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $date_pub;
+    public $date_pub;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $contenu_pub;
+    public $contenu_pub;
 
     /**
      * @ORM\Column(type="string", length=1, nullable=true)
@@ -53,6 +53,31 @@ class Publication
      * @ORM\OneToMany(targetEntity=Mutimedia::class, mappedBy="publication")
      */
     private $mutimedia;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $non;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $age;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     */
+    private $sexe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $localisation;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $archiver;
 
     public function __construct()
     {
@@ -181,6 +206,66 @@ class Publication
                 $mutimedia->setPublication(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNon(): ?string
+    {
+        return $this->non;
+    }
+
+    public function setNon(?string $non): self
+    {
+        $this->non = $non;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): self
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(?string $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getLocalisation(): ?string
+    {
+        return $this->localisation;
+    }
+
+    public function setLocalisation(?string $localisation): self
+    {
+        $this->localisation = $localisation;
+
+        return $this;
+    }
+
+    public function getArchiver(): ?bool
+    {
+        return $this->archiver;
+    }
+
+    public function setArchiver(?bool $archiver): self
+    {
+        $this->archiver = $archiver;
 
         return $this;
     }
