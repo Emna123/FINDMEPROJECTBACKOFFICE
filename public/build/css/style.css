@@ -156,7 +156,7 @@
     font-weight: 600;
     text-transform: uppercase;
     background-color: #fff;
-    border: 1px solid #e9ecef;
+    border: 1px solid #cf3f3d;
     border-radius: 2px;
     -webkit-transition:opacity background 0.15s ease-out;
     transition: opacity background 0.15s ease-out; }
@@ -172,7 +172,7 @@
     transition: inherit; }
   .switch.switch-text .switch-label:before {
     right: 1px;
-    color: #e9ecef;
+    color: #cf3f3d;
     content: attr(data-off); }
   .switch.switch-text .switch-label:after {
     left: 1px;
@@ -193,7 +193,7 @@
     width: 20px;
     height: 20px;
     background: #fff;
-    border: 1px solid #e9ecef;
+    border: 1px solid #cf3f3d;
     border-radius: 1px;
     -webkit-transition:left 0.15s ease-out;
     transition: left 0.15s ease-out; }

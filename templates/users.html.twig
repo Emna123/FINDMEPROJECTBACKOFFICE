@@ -10,18 +10,23 @@
     </style>
 
     <br>
-    <div align="center">
+    <div align="center" style="height:350pt;overflow:auto">
     <div class="w-75 text-center">
         <div class="card">
             <div class="card-header">
                 <strong class="card-title">ALL USERS</strong>
             </div>
+            <br>
+            <form class="offset-md-3  form-inline d-flex justify-content-center md-form form-sm mt-0" style="width: 50%;">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" id="sc" aria-label="Search">
+            </form>
             <div class="card-body">
-                <table class="table w-100"  >
+                <table class="table w-100"  id="cmt">
                     <thead class="thead-dark">
                     <tr>
 
-                        <th scope="col">E-mail <i class="fa ti-email"></i>  </th>
+                        <th scope="col">E-mail <i class="fa fa-envelope-o"></i>  </th>
                         <th scope="col"> Last name</th>
                         <th  scope="col">First name</th>
 
@@ -34,15 +39,15 @@
 
                         {% for ut in users %}
 
-                            <tr>
-                                <td scope="row" align="left"><i class="fa ti-email"></i>  {{ ut.email }}</td>
+                            <tr  >
+                                <td scope="row" align="left"><i class="fa fa-envelope-o"></i>  {{ ut.email }}</td>
                                 <td align="center">{{ ut.nom }} </td>
                                 <td align="center">{{ ut.prenom}}</td>
 <td align="center"> <a href="{{ path('bloqueru',{'id':ut.id}) }}" class="js-like">
         {% if   ut.bloque==0 %}
-            <label class="switch switch-text switch-danger switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
+            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
         {% else%}
-            <label class="switch switch-text switch-danger switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
+            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="UNB" data-off="BLO" class="switch-label"></span> <span class="switch-handle"></span></label>
         {% endif %}
     </a></td>
                             </tr>
@@ -58,6 +63,9 @@
     </div>
     </div>
     {% block javascripts %}
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
             function onClickBtnLike(event){
@@ -79,6 +87,14 @@
             }
             document.querySelectorAll('a.js-like').forEach(function (link) {
                 link.addEventListener('click',onClickBtnLike)
+            });
+            $(document).ready(function(){
+                $("#sc").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#cmt tr ").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
             });
         </script>
     {% endblock %}

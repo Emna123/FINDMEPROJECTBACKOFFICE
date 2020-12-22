@@ -1,0 +1,47 @@
+
+{% extends 'base.html.twig' %}
+    {% form_theme form2 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+
+    {{ form_start (form2) }}
+    <br/><br/>
+
+<div class="row"  >
+            <div class="col-md-5 offset-md-3"  >
+
+
+
+
+                <span style="color: darkred ;" > * </span>       <div align="center">      <select data-placeholder="CONTACTS..." class=" standardSelect " tabindex="1" name="select"  required >
+
+                                    <option value="" ></option>
+                                    {% for r in res %}
+                                    <option value="{{r.username}}" name="option">{{r.username}}</option>
+                                    {% endfor %}
+
+                                </select>
+                </div>
+
+                    </div>
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+    <div class="col-md-7 offset-md-2"> <span style="color: darkred"> * </span>  {{ form_row(form2.message) }}</div>
+
+    <br/><br/><br/>
+
+<div class="col-md-5 offset-md-3">
+    <button type="reset" class="btn btn-dark" style="width: 144.5px;"><i class="fa fa-refresh" ></i>&nbsp;&nbsp;Reset</button>
+    <button type="submit" class="btn btn-secondary" style="width: 144px;"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp; Send Message</button>
+
+    <a href="{{ path('convers') }}" ><button type="button" class="btn btn-dark" style="width: 110px"><i class="fa fa-hand-o-left" ></i>&nbsp;Return</button></a>
+
+
+</div>
+</div>
+
+    {{ form_end (form2) }}
+
+{% endblock %}

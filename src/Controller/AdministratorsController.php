@@ -6,6 +6,8 @@ use App\Form\AdministrationType;
 use App\Form\MyaccountType;
 use App\Repository\AdministrationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,21 +69,33 @@ class AdministratorsController extends AbstractController
 
     }
     /**
-     * @route("/delete/{id}",name="deleteadmi")
-     * @param Administration $p
+     * @route("/delete",name="deleteadmi")
+     * @param AdministrationRepository  $k
      * @return Response
      */
 
-    public function supprimer(Administration  $p)
+    public function supprimer(AdministrationRepository  $k)
     {
+        $p=$k->find($_POST['d']);
+
+
         $em = $this->getDoctrine()->getManager();
+        foreach ($p->getMessages() as $m)
+        { $p->removeMessage($m);
+            $em->remove($m);
+        }
+        foreach ($p->getConversations() as $c)
+        { $p->removeConversation($c);
+            $em->remove($c);
+        }
+
         $em->remove($p);
         $em->flush();
 
         $this->addFlash('success', 'The administrator is deleted');
 
 
-        return $this->redirect($_SERVER['HTTP_REFERER']);
+        return $this->json(['code'=>200,200]);
 
 
     }
@@ -102,6 +116,7 @@ class AdministratorsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $admin->setBloquer(0);
             $admin->setEtat('A');
+
             $em->persist($admin);
             $em->flush();
 

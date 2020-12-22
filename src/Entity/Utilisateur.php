@@ -59,10 +59,7 @@ class Utilisateur
      */
     private $bloque;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Conversation::class, mappedBy="utilisateur", cascade={"persist", "remove"})
-     */
-    private $conversation;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="utilisateur")
@@ -79,11 +76,24 @@ class Utilisateur
      */
     private $publications;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Conversation::class, mappedBy="utilisateur", cascade={"persist", "remove"})
+     */
+    private $conversation;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $verified;
+
+
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->publications = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -187,23 +197,6 @@ class Utilisateur
         return $this;
     }
 
-    public function getConversation(): ?Conversation
-    {
-        return $this->conversation;
-    }
-
-    public function setConversation(?Conversation $conversation): self
-    {
-        $this->conversation = $conversation;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUtilisateur = null === $conversation ? null : $this;
-        if ($conversation->getUtilisateur() !== $newUtilisateur) {
-            $conversation->setUtilisateur($newUtilisateur);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Message[]
@@ -294,4 +287,40 @@ class Utilisateur
 
         return $this;
     }
+    public function __toString():string
+    {
+        return $this->getUsername();
+    }
+
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    public function setConversation(?Conversation $conversation): self
+    {
+        $this->conversation = $conversation;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUtilisateur = null === $conversation ? null : $this;
+        if ($conversation->getUtilisateur() !== $newUtilisateur) {
+            $conversation->setUtilisateur($newUtilisateur);
+        }
+
+        return $this;
+    }
+
+    public function getVerified(): ?string
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(?string $verified): self
+    {
+        $this->verified = $verified;
+
+        return $this;
+    }
+
+
 }

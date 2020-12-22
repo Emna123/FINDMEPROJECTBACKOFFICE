@@ -19,15 +19,27 @@ class Conversation
      */
     private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Utilisateur::class, inversedBy="conversation", cascade={"persist", "remove"})
-     */
-    private $utilisateur;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="conversation")
      */
     private $messages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Administration::class, inversedBy="conversations")
+     */
+    private $admin;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Utilisateur::class, inversedBy="conversation", cascade={"persist", "remove"})
+     */
+    private $utilisateur;
+
+
+
+
+
 
     public function __construct()
     {
@@ -39,15 +51,9 @@ class Conversation
         return $this->id;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function setId(?int $id): self
     {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?Utilisateur $utilisateur): self
-    {
-        $this->utilisateur = $utilisateur;
-
+        $this->id=$id;
         return $this;
     }
 
@@ -80,4 +86,33 @@ class Conversation
 
         return $this;
     }
+
+    public function getAdmin(): ?Administration
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(?Administration $admin): self
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+
+
+
+
 }

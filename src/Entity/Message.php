@@ -25,7 +25,7 @@ class Message
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $date_mess;
+    public $date_mess;
 
     /**
      * @ORM\ManyToOne(targetEntity=Administration::class, inversedBy="messages")
@@ -46,7 +46,11 @@ class Message
     {
         return $this->id;
     }
-
+    public function setId(?int $id): self
+    {
+        $this->id=$id;
+        return $this;
+    }
     public function getMessage(): ?string
     {
         return $this->message;

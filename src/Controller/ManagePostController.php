@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commentaire;
 use App\Entity\Publication;
+use App\Repository\CommentaireRepository;
 use App\Repository\PublicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,15 @@ class ManagePostController extends AbstractController
      */
     public function index(PublicationRepository $repository): Response
     {
-        $post=$repository->findAll();
+        $tab=$repository->findAll();
+
+        $post=[];
+        foreach ($tab as $a)
+        {
+            $post[]=['post'=>$a,
+                'mult'=>$a->getMutimedia()[0]];
+        }
+
         return $this->render('manage_post/index.html.twig',['post'=>$post]);
     }
 
@@ -57,14 +66,14 @@ public function resolu(Publication $a,PublicationRepository $repository)
 }
 
     /**
-     * @route("/hide/{id}",name="hide")
-     * @param Publication $a
+     * @route("/hide",name="hide")
      * @param PublicationRepository $repository
      * @return Response
      */
 
-    public function hide(Publication $a,PublicationRepository $repository)
+    public function hide(PublicationRepository $repository)
     {
+        $a=$repository->find($_POST['d']);
         $em = $this->getDoctrine()->getManager();
 
             $a->setArchiver(1);
@@ -72,7 +81,7 @@ public function resolu(Publication $a,PublicationRepository $repository)
 
          $this->addFlash('success', 'POST HIDED');
 
-        return $this->redirect($_SERVER['HTTP_REFERER']);
+        return $this->json(['code'=>200,200]);
 
 
     }
@@ -89,25 +98,28 @@ public function resolu(Publication $a,PublicationRepository $repository)
     {
         $tab=$a->getCommentaires();
          $mult=$a->getMutimedia();
-        return $this->render('manage_post/details.html.twig',['p'=>$a,'tab'=>$tab,'mult'=>$mult]);
+        return $this->render('manage_post/details.html.twig',['p'=>$a,'tab'=>$tab,'mult'=>$mult,'nbc'=>sizeof($tab)]);
 
 
     }
+
     /**
-     * @route("/deletecm/{id}",name="deletecm")
-     * @param Commentaire $p
+     * @route("/deletecm",name="deletecm")
+     * @param CommentaireRepository $k
      * @return Response
      */
 
-    public function supprimer( Commentaire $p)
+    public function supprimer( CommentaireRepository $k)
     {
+        $p=$k->find($_POST['d']);
+
         $em = $this->getDoctrine()->getManager();
        $p->getUtilisateur()->removeCommentaire($p);
        $em->remove($p);
         $em->flush();
+         $test=true;
+        return $this->json(['code'=>200,'test'=>$test,200]);
 
-
-        return $this->redirect($_SERVER['HTTP_REFERER']);
 
 
     }

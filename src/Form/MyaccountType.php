@@ -20,21 +20,21 @@ class MyaccountType extends AbstractType
 
         $builder
 
-            ->add('username',null, ['label'=>'Username : '])
+            ->add('username',null, ['label'=>'* Username : '])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Confirmation de Mot de Passe incorrect.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password :'],
-                'second_options' => ['label' => 'Confirm password :'],
+                'first_options'  => ['label' => '* Password :'],
+                'second_options' => ['label' => '* Confirm password :'],
             ])
-            ->add('nom',null, ['label'=>'Last name : '])
-            ->add('prenom',null, ['label'=>'First name : '])
-            ->add('tel',TelType::class,['label'=>'Phone : '])
-            ->add('adresse',TextareaType::class, ['label'=>'Address : '])
-            ->add('mail',EmailType::class,['label'=>'E-mail : '])
-            ->add('imageFile',FileType::class,['label'=>'Picture : ','required'=>true])
+            ->add('nom',null, ['label'=>'* Last name : '])
+            ->add('prenom',null, ['label'=>'* First name : '])
+            ->add('tel',TelType::class,['label'=>'* Phone : '])
+            ->add('adresse',TextareaType::class, ['label'=>'* Address : '])
+            ->add('mail',EmailType::class,['label'=>'* E-mail : '])
+            ->add('imageFile',FileType::class,['label'=>'* Picture : ','required'=>true])
 
         ;
     }

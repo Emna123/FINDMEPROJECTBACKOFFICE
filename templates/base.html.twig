@@ -24,11 +24,17 @@
     <link rel="stylesheet" href="{{ asset('build/vendors/jqvmap/dist/jqvmap.min.css')}}">
 
 
+
+    <link rel="stylesheet" href="{{ asset('build/vendors/chosen/chosen.min.css')}}">
+
     <link rel="stylesheet" href="{{ asset('build/assets/css/style.css')}}">
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
+    <script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="{{ asset('build/images/favicon.png')}}" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
 
+    <script src="https://use.typekit.net/hoy3lrg.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
 </head>
 
@@ -90,10 +96,12 @@
 
                 </li>
 
-
+                <li class="menu-item-has-children">
+                    <a href="{{path('work')}}"> <i class="menu-icon fa fa-envelope-o"></i>MSG Assignments</a>
+                </li>
 
                 <li class="menu-item-has-children">
-                    <a href=# > <i class="menu-icon fa fa-envelope-o"></i>Conversations</a>
+                    <a href="{{path('convers')}}"> <i class="menu-icon fa fa-comments"></i>Conversations</a>
                 </li>
             </ul>
         </div>
@@ -122,71 +130,9 @@
                         </form>
                     </div>
 
-                    <div class="dropdown for-notification">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-bell"></i>
-                            <span class="count bg-danger">5</span>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="notification">
-                            <p class="red">You have 3 Notification</p>
-                            <a class="dropdown-item media bg-flat-color-1" href="#">
-                                <i class="fa fa-check"></i>
-                                <p>Server #1 overloaded.</p>
-                            </a>
-                            <a class="dropdown-item media bg-flat-color-4" href="#">
-                                <i class="fa fa-info"></i>
-                                <p>Server #2 overloaded.</p>
-                            </a>
-                            <a class="dropdown-item media bg-flat-color-5" href="#">
-                                <i class="fa fa-warning"></i>
-                                <p>Server #3 overloaded.</p>
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="dropdown for-message">
-                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                id="message"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ti-email"></i>
-                            <span class="count bg-primary">9</span>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="message">
-                            <p class="red">You have 4 Mails</p>
-                            <a class="dropdown-item media bg-flat-color-1" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="{{('build/assets/images/admin.jpg')}}"></span>
-                                <span class="message media-body">
-                                    <span class="name float-left">Jonathan Smith</span>
-                                    <span class="time float-right">Just now</span>
-                                        <p>Hello, this is an example msg</p>
-                                </span>
-                            </a>
-                            <a class="dropdown-item media bg-flat-color-4" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="{{('build/assets/images/admin.jpg')}}"></span>
-                                <span class="message media-body">
-                                    <span class="name float-left">Jack Sanders</span>
-                                    <span class="time float-right">5 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                </span>
-                            </a>
-                            <a class="dropdown-item media bg-flat-color-5" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="{{('build/assets/images/admin.jpg')}}"></span>
-                                <span class="message media-body">
-                                    <span class="name float-left">Cheryl Wheeler</span>
-                                    <span class="time float-right">10 minutes ago</span>
-                                        <p>Hello, this is an example msg</p>
-                                </span>
-                            </a>
-                            <a class="dropdown-item media bg-flat-color-3" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="{{('build/assets/images/admin.jpg')}}"></span>
-                                <span class="message media-body">
-                                    <span class="name float-left">Rachel Santos</span>
-                                    <span class="time float-right">15 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
 
@@ -205,9 +151,7 @@
                     <div class="user-menu dropdown-menu">
                         <a class="nav-link" href="{{ path('edit',{'id':app.user.id}) }}"><i class="fa fa-user"></i> My Profile</a>
 
-                        <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
 
-                        <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
 
                         <a class="nav-link" href="{{path('logout')}}"><i class="fa fa-power-off"></i> Logout</a>
                     </div>
@@ -264,6 +208,12 @@
 <script src="{{ asset('build/vendors/jqvmap/dist/jquery.vmap.min.js')}}"></script>
 <script src="{{ asset('build/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js')}}"></script>
 <script src="{{ asset('build/vendors/jqvmap/dist/maps/jquery.vmap.world.js')}}"></script>
+
+
+
+
+<script src="{{ asset('build/vendors/chosen/chosen.jquery.min.js')}}"></script>
+
 <script>
     (function($) {
         "use strict";
@@ -281,6 +231,13 @@
             normalizeFunction: 'polynomial'
         });
     })(jQuery);
+    jQuery(document).ready(function() {
+        jQuery(".standardSelect").chosen({
+            disable_search_threshold: 2,
+            no_results_text: "Oops, nothing found!",
+            width: "100%"
+        });
+    });
 </script>
 
 </body>

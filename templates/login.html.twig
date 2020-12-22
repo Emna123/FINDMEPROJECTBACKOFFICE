@@ -26,9 +26,14 @@
     <link rel="stylesheet" href="{{ asset('build/assets/css/style.css')}}">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-
-
-
+<style>
+    .not-active {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: black;
+    }
+</style>
 </head>
 
 <body class="bg-dark">
@@ -56,12 +61,13 @@
                         <label>Password</label>
                         <input type="password" class="form-control" placeholder="Password" data-constraints="@Password @Required"  id="password" name="_password" >
                     </div>
-                    <div class="checkbox">
+                    <div class="checkbox " >
                         <label>
-                            <input type="checkbox"> Remember Me
+                            <input type="checkbox" onclick="onClickBtnLike()" id="chik"  > Remember Me
                         </label>
                         <label class="pull-right">
-                            <a href="#">Forgotten Password?</a>
+
+                            <a href="{{ path('help') }}" class="not-active"  id="link">Forgotten Password?</a>
                         </label>
 
                     </div>
@@ -84,3 +90,27 @@
 </body>
 
 </html>
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function onClickBtnLike(){
+
+            icone = document.getElementById("chik");
+            link=document.getElementById("link")
+            console.log(icone);
+
+
+                if(icone.getAttribute('checked')==='checked') {
+                    icone.removeAttribute('checked')
+                    link.classList.add("not-active");}
+                else {
+                   icone.setAttribute('checked','checked');
+                    link.classList.remove("not-active");
+                    }
+
+                console.log(response);
+
+        }
+
+    </script>
+{% endblock %}

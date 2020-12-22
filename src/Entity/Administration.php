@@ -109,6 +109,14 @@ class Administration implements UserInterface,\Serializable
      */
     private $img;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="admin")
+     */
+    private $conversations;
+
+
+
+
 
 
 
@@ -118,6 +126,7 @@ class Administration implements UserInterface,\Serializable
         $this->messages = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->publications = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
 
@@ -421,6 +430,37 @@ class Administration implements UserInterface,\Serializable
 
         return $this;
     }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations[] = $conversation;
+            $conversation->setAdmin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            // set the owning side to null (unless already changed)
+            if ($conversation->getAdmin() === $this) {
+                $conversation->setAdmin(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 
 }

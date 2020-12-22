@@ -57,7 +57,7 @@ class Publication
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $non;
+    private $nom;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -78,6 +78,16 @@ class Publication
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $archiver;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $latitude;
 
     public function __construct()
     {
@@ -210,14 +220,14 @@ class Publication
         return $this;
     }
 
-    public function getNon(): ?string
+    public function getNom(): ?string
     {
-        return $this->non;
+        return $this->nom;
     }
 
-    public function setNon(?string $non): self
+    public function setNom(?string $nom): self
     {
-        $this->non = $non;
+        $this->nom = $nom;
 
         return $this;
     }
@@ -266,6 +276,30 @@ class Publication
     public function setArchiver(?bool $archiver): self
     {
         $this->archiver = $archiver;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?string $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?string $latitude): self
+    {
+        $this->latitude = $latitude;
 
         return $this;
     }

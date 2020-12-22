@@ -1,141 +1,157 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <div class="col-md-12">
+    <style>.active-pink-2 input.form-control[type=text]:focus:not([readonly]) {
+            border-bottom: 1px solid #f48fb1;
+            box-shadow: 0 1px 0 0 #f48fb1;
+        }
+        .map1 {
+            margin-left: 20px;
+            width: 92%;
+            height: 500px;
+        }
+    </style>
+<div style="height:370pt;overflow:auto;" id="bigdiv">
+    <div class="col-md-8 offset-md-2" >
         <aside class="profile-nav alt">
             <section class="card">
                 <div class="card-header user-header alt bg-dark">
-                    <div class="media">
+                    <div class="media" >
                         <a href="#">
-                            <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="{{ asset('build/images/avatar.jpg')}}">
+                            <img class="align-self-center rounded-circle mr-3" style="width:50px; height:50px;" alt="" src="{{ asset('build/images/avatar.jpg')}}">
                         </a>
 
-                        <div class="media-body">
-                            <h2 class="text-light display-30" style="font-size: 19px;">{{ p.utilisateur.nom}} {{ p.utilisateur.prenom}}</h2>
-                            <p>{{p.date_pub|format_datetime()}}</p>
-                            <p>{{ p.contenu_pub}} </p>
+                        <div class="media-body" style="float: left;">
+                            <h2 class="text-light display-30" style="font-size: 13px;">{{ p.utilisateur.nom}} {{ p.utilisateur.prenom}}</h2>
+                            <p style="font-size: 13px">{{p.date_pub|format_datetime()}}</p>
+                            <p style="font-size: 13px;max-height: 180px;">{{ p.contenu_pub}} </p>
+                        </div>
+                        <div style="text-align: right;float: right;"> <a a onclick="hide({{ p.id }})">     <button type="button" class="btn btn-danger" style="border-radius: 5px;"> <i class="fa fa-lightbulb-o"> </i></button></a> &nbsp;&nbsp;
+                            <a href="{{ path('resolu',{'id':p.id}) }}" class="js-like">
+                                {% if   p.statut=='R' %}
+                                    <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                {% else%}
+                                    <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                {% endif %}
+                            </a>
                         </div>
                     </div>
-                    <div style="text-align: right"> <a href="{{ path('hide',{'id':p.id})}}">     <button type="button" class="btn btn-danger"> <i class="fa fa-lightbulb-o"> </i></button></a> &nbsp;&nbsp;      {% if   p.statut=='R' %}
-                            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
-                        {% else%}
-                            <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
-                        {% endif %}
-                    </div>
                 </div>
+                    <table class="table table-striped" >
+                        <tbody align="center">
+                        <tr>
 
-    <div class="col-lg-12">
-
-
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th scope="col">Victim Informations</th>
-                        <th scope="col">Victim Pictures</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="media-body">
-                            <p class="media">Victim Name &nbsp;&nbsp;&nbsp;<span style="color: black">{{ p.non}}</span></p>
-                            <p>Victim Age &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: black">  {{ p.age}} Years</span></p>
-                            <p>Victim Sexe &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                {% if    p.sexe=='F' %}
-                                <span style="color: black">  Women</span></p>
+                            <td>Victim Name</td>
+                            <td>Victim Age</td>
+                            <td>Victim Sexe</td>
+                        </tr>
+                        <tr>
+                            <td>{{ p.nom}}</td>
+                            <td>{{ p.age}} Years</td>
+                            {% if    p.sexe=='F' %}
+                                <td>Women</td>
                             {%else %}
-                                <span style="color: black">  Men</span></p>
+                                <td> Men</td>
                             {% endif %}
-                            <p align="center">Last location Before Vanishment</p>
-<div style="width: 500px"></div>
+                        </tr>
 
-                        </td>
-                        <td> <div class="content mt-3 ">
-                                <div class="animated fadeIn">
-                                    <div class="col">
+                        </tbody>
+                    </table>
+
+
+
+
+
+
+                         <div class="offset-md-3" style="max-height: 100%;" >
+
                                         {% for m in mult %}
 
-                                                <div class="col-md-4  ">
-                                                    <div class="card">
-
-                                                        <div class="card-body ">
-                                                            <div class="mx-auto d-block">
-
-
-
-                                                                    <img  class="md-avatar size-4 mx-auto d-block" src= "/FINDMEPROJECT/public/uploads/images/{{m.source}}" alt="Card image cap"/>
-
-
-
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                            <img  style="max-width: 30%;margin: 2%;float: left" src= "/FINDMEPROJECT/public/uploads/images/{{m.source}}" alt="Card image cap"/>
 
 
                                         {% endfor %}
+                         </div>
+<br> <p style="padding-left: 4%;">last location before vanishment :</p>
+                <div id="map" class="map1" style="height: 200px"></div>
+                <div class="test">
+                    <input id="tableau1" type="hidden" value="{{ p.longitude }}"/>
+                    <input id="tableau2" type="hidden" value="{{ p.latitude }}"/>
+                </div>
+
+<br><br>
+               <a onclick="masquer_div() ">  <p align="center">{{ nbc }} Comments</p></a>
 
 
+                <br>
 
-                                    </div></div></div>
-                        </td>
+                <div id="a_masquer"  hidden style="max-height: 100%;max-width: 100%;" >
+                    <form class="offset-md-3  form-inline d-flex justify-content-center md-form form-sm mt-0" style="width: 50%;">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" id="sc" aria-label="Search">
+                    </form>
+                    <br/>
 
-                    </tr>
+<div id="cmt">
 
-
-                    </tbody>
-                </table>
-
-
-                <input type="button" value="COMMENTS" onclick="masquer_div('a_masquer'); " class="btn btn-secondary"style="width: 115px;" />
-                <br><br>
-                <div id="a_masquer" style="display: none">
-                    <div class="col-lg-6">
-                        <div class="card">
-
-                            <div class="card-body">
-                                <table class="table table-dark">
-                                    <tbody>
+                                    <div  style="height:300pt;overflow:auto ;border-color:#efefef;"  id="ml" class="offset-md-1 ">
+                                        <br>
                     {% for t in tab%}
 
-                                        <tr>
-                                            <td class="media-body">  <p style="font-size: 15px">{{ t.utilisateur.nom}} {{ t.utilisateur.prenom}}</p>   <p style="font-size: 10px">{{t.date_comnt|format_datetime()}}</p>  <div>{{t.contenu_comnt}}</div> </td>
-                                            <td><br><br> <a href="{{ path('deletecm',{'id':t.id})}}">  <i class="fa fa-trash-o"></i></a> </td>
-                                        </tr>
+<div id="lm" >
+                                            <div class="card-body" style="background-color:#efefef; border-radius: 20px;display:inline-block;max-width: 1600px;min-width: 500px;">
+                                                <p style="font-size: 12px;color: black;font-weight: bold;text-align: left;margin-left: 1px;float: left;max-width: 420px">{{ t.utilisateur.nom}} {{ t.utilisateur.prenom}}<br>
+                                                    <span style="text-align: left;color: black;font-size: 12px;margin-top: 1px;font-weight: normal;">{{t.contenu_comnt}}</span></p>
+                                                <p style="text-align: right;float: right;vertical-align: middle;" ><a onclick="deletef({{ t.id }})">  <i class="fa fa-trash-o"></i></a> </p>
+
+                                            </div>
+                        <p style="font-size: 10px;color: black;margin-left: 30px">{{t.date_comnt|format_datetime()}}</p>
+
+</div>
+
 
                 {% endfor %}
 
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    </div>
+                                    </div>
 
-            </div>
-    </div>
+                    </div>
+
+
+
+
             </section></aside></div>
-    {% block javascripts %}
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdnbu2dKsKShoO4zqET8uFYY6EV4KapxE&callback=initMap&libraries=&v=weekly" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
-            function masquer_div(id)
-            {
-                if (document.getElementById(id).style.display === 'none')
-                {
-                    document.getElementById(id).style.display = 'block';
+            function scrollToBottom() {
+                var div=document.getElementById('bigdiv');
+                div.scrollTop=div.scrollHeight;
+            }
+            function deletef(d){
+                console.log(d);
+
+                $.ajax({
+                    url: "{{ path('deletecm')}}",
+                    type: 'post',
+                     data: {d:d},
+                dataType: 'json',
+
+                    success: function(da){
+
+                    if(da.test===true){
+                        $('#cmt').load(document.URL +  ' #cmt');
+                        console.log("cmnt sup")
+                    }
                 }
-                else
-                {
-                    document.getElementById(id).style.display = 'none';
-                }
+
+
             }
 
-
+            )
+            };
             function onClickBtnLike(event){
                 event.preventDefault();
                 const url = this.href;
@@ -156,7 +172,79 @@
             document.querySelectorAll('a.js-like').forEach(function (link) {
                 link.addEventListener('click',onClickBtnLike)
             });
-        </script>
-    {% endblock %}
+            function masquer_div(){
 
+                icone = document.getElementById("a_masquer");
+
+                console.log(icone);
+
+
+                if(icone.getAttribute('hidden')==='hidden') {
+                    icone.removeAttribute('hidden');
+                    scrollToBottom();
+                }
+                else {
+                    icone.setAttribute('hidden','hidden');
+
+                }
+
+                console.log(response);
+
+            }
+
+            function hide(d){
+                console.log(d);
+
+                $.ajax({
+                        url: "{{ path('hide')}}",
+                        type: 'post',
+                        data: {d:d},
+                        dataType: 'json',
+
+                        success: function(da){
+
+                        }
+
+
+
+                    }
+
+                )
+            };
+            $(document).ready(function(){
+                $("#sc").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#cmt #lm").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+            let map;
+            let markers = [];
+            // var infowindow = new google.maps.InfoWindow();
+            function initMap() {
+                tab2 = document.querySelectorAll("div.test");
+                long = tab2[0].childNodes;
+                console.log(tab2[0].childNodes);
+                console.log(long[1],long[3]);
+                var latit = Number(tab2[0].childNodes[3].value);
+                var long =Number(tab2[0].childNodes[1].value);
+                const haightAshbury = { lat: long, lng: latit };
+                console.log(long);
+                console.log(latit);
+                map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 12,
+                    center: haightAshbury,
+                    draggable: true
+
+                });
+                new google.maps.Marker({
+                    position: haightAshbury,
+                    map,
+                    title: "Localisation",
+                });
+            }
+        </script>
+
+</div>
 {% endblock %}

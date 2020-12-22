@@ -8,7 +8,7 @@
         }
     </style>
 
-    <div class="content mt-3 ">
+    <div class="content mt-3 " style="height:370pt;overflow:auto"  id="cmt">
         <div class="animated fadeIn">
             <div class="col">
 
@@ -36,14 +36,12 @@
                                 </div>
                                 <div class="card-body ">
                                     <div class="mx-auto d-block">
-                                        {% if   admin.img=="" %}
-                                            <img  class="md-avatar rounded-circle size-4 mx-auto d-block" src="{{ asset('build/images/avatar.jpg')}}" alt="Card image cap" >
+{% if admin.img=="" %}
+    <img  class="md-avatar rounded-circle size-4 mx-auto d-block"src=" {{ asset('build/images/avatar.jpg')}} " alt="Card image cap" >
+{% else%}
+    <img  class="md-avatar rounded-circle size-4 mx-auto d-block"src="/images/adminis/{{ admin.img}}" alt="Card image cap" >
 
-
-                                        {% else%}
-                                            <img  class="md-avatar rounded-circle size-4 mx-auto d-block"src="/images/adminis/{{ admin.img}}" alt="Card image cap" >
-
-                                        {% endif %}
+{% endif %}
 
 
                                         <h5 class="text-sm-center mt-2 mb-1">{{ admin.nom}} {{ admin.prenom}}</h5>
@@ -55,7 +53,7 @@
                                     <hr>
                                     <div class="card-text text-sm-center">
 
-                                        <a href="{{ path('deleteadmi',{'id':admin.id}) }}"> <button type="button" class="btn btn-danger" style="width: 94px;"><i class="fa fa-minus-circle"></i>&nbsp; delete</button></a>
+                                        <a onclick="deletef({{ admin.id }})"> <button type="button" class="btn btn-danger" style="width: 97px;border-radius: 5px" ><i class="fa fa-minus-circle"></i>&nbsp; delete</button></a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <span >
                               <a href="{{ path('bloquer',{'id':admin.id}) }}" class="js-like">
@@ -82,7 +80,31 @@
 
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-     <script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+
+    <script>
+         function deletef(d){
+             console.log(d);
+
+             $.ajax({
+                     url: "{{ path('deleteadmi')}}",
+                     type: 'post',
+                     data: {d:d},
+                     dataType: 'json',
+
+                     success: function(da){
+
+
+                             $('#cmt').load(document.URL +  ' #cmt');
+
+                         }
+
+
+
+                 }
+
+             )
+         };
          function onClickBtnLike(event){
              event.preventDefault();
              const url = this.href;
@@ -103,6 +125,7 @@
          document.querySelectorAll('a.js-like').forEach(function (link) {
              link.addEventListener('click',onClickBtnLike)
          });
+
          </script>
 {% endblock %}
 {% endblock %}
