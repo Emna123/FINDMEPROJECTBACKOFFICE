@@ -2,7 +2,140 @@
 {% extends 'base.html.twig' %}
 
 
-{% block bodtt %}
 
+{% block body %}
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <script src="https://kit.fontawesome.com/a9b4fa71fa.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Publications pas encore Résolus', {{ PostNotResolved }}],
+                ['Publications Résolus', {{ totalPubsWithStatusR }}],
+
+            ]);
+
+
+            var options = {
+                title: 'Repartition des publications',
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+            chart.draw(data, options);
+        }
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Homme', {{NbrHomme}}],
+                ['Femme',      {{ NbrFemme }}],
+
+            ]);
+
+            var options = {
+                title: 'Répartition des personnes perduels selon leur sexe',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawStuff);
+
+        function drawStuff() {
+            var data = new google.visualization.arrayToDataTable([
+                ['Move', 'Percentage'],
+                ["Nombre d'utilisateur totale", {{ totalut }}],
+                ["Nombre de posts totale", {{ totalPubs }}],
+                ["Nombre de commentaires ", {{ commentsTotal }}],
+                ["Nombre de messages", {{ messages }}],
+
+            ]);
+
+            var options = {
+                width: 800,
+                legend: { position: 'none' },
+                chart: {
+                    title: 'Statistique génerale',
+                     },
+                axes: {
+                    x: {
+                        0: { side: 'top', label: ''} // Top x-axis.
+                    }
+                },
+                bar: { groupWidth: "90%" }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+            // Convert the Classic options to Material options.
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
+    </script>
+
+    <script type="text/javascript">
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ["Element", "Density", { role: "style" } ],
+
+                ["Publication ", {{ narch }}, "silver"],
+                ["Publication non archiver", {{ arch }}, "#3d8ee7"],
+
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                { calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation" },
+                2]);
+
+            var options = {
+                title: "Publications archiver/non archiver",
+                width: 600,
+                height: 400,
+                bar: {groupWidth: "95%"},
+                legend: { position: "none" },
+            };
+            var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+            chart.draw(view, options);
+        }
+    </script>
+
+    <div class="container" >
+        <!--<p class="display-6 color-d">Hello, world!</p>-->
+        <div id="piechart_3d" style="
+               width: 800px;
+                  height: 500px;
+
+                   margin-left: auto;
+  margin-right: auto;"></div>
+        <div style="height: 25px"></div>
+
+        <div id="donutchart" style="width: 800px; height: 500px;; margin-left: auto; margin-right: auto;"></div>
+        <div style="height: 25px"></div>
+        <div id="top_x_div"  style="width: 800px; height: 500px;margin-bottom: 45px; margin-left: auto; margin-right: auto;"></div>
+
+        <div id="barchart_values" style="width: 800px; height: 500px;; margin-left: auto; margin-right: auto;"></div>
+
+        <!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->
+    </div>
 
 {% endblock %}
