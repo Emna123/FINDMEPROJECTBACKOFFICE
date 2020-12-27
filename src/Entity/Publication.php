@@ -65,7 +65,7 @@ class Publication
     private $age;
 
     /**
-     * @ORM\Column(type="string", length=1, nullable=true)
+     * @ORM\Column(type="string", length=18, nullable=true)
      */
     private $sexe;
 

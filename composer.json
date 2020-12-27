@@ -34,10 +34,8 @@
         "symfony/web-link": "4.4.*",
         "symfony/yaml": "4.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/intl-extra": "^3.1",
         "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^1.8",
-      "ext-http": "*"
+        "vich/uploader-bundle": "^1.8"
     },
     "require-dev": {
         "symfony/browser-kit": "^4.4",

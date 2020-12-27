@@ -97,7 +97,7 @@
         "version": "2.1.1"
     },
     "php": {
-        "version": "7.1"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.1.0"
@@ -331,6 +331,9 @@
             "./tests/bootstrap.php"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.20.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.20.0"
     },
@@ -413,6 +416,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.16"
+    },
+    "symfony/string": {
+        "version": "v5.2.0"
     },
     "symfony/templating": {
         "version": "v4.4.16"
