@@ -791,7 +791,7 @@ Website: http://emilcarlsson.se/
         <form  action="{{ path('newmes',{'id':a.id}) }}" name="form" method="POST" class="form">
         <div class="message-input">
             <div class="wrap">
-                <input name="mes" type="text" placeholder="Write your message..." />
+                <input name="mes" type="text" placeholder="Write your message..." required />
                 <button class="submit" ><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </div>
         </div>
@@ -909,12 +909,14 @@ Website: http://emilcarlsson.se/
     };
     $(document).ready(function(){
         const $form = $('form');
+        message = $(".message-input input").val();
 
         $form.submit(function(){
 
-            $.post($(this).attr('action'), $(this).serialize(), function(response){
-                submit();
-            },'json');
+                $.post($(this).attr('action'), $(this).serialize(), function (response) {
+                    submit();
+                }, 'json');
+
             return false;
         });
     });
