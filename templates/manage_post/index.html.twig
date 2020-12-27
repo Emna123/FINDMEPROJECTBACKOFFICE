@@ -1,73 +1,132 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block body %}
 
 
-<div class="content ">
-    <div class="animated fadeIn">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Basic Table</strong>
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>   <button type="button" class="btn btn-danger"> <i class="fa fa-rss"></i>&nbsp; Danger</button>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-magic"></i>&nbsp; Success</button>
-                                    <button type="button" class="btn btn-secondary"><i class="fa fa-lightbulb-o"></i>&nbsp; archiver</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>   <button type="button" class="btn btn-danger"> <i class="fa fa-rss"></i>&nbsp; Danger</button>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-magic"></i>&nbsp; Success</button>
-                                    <button type="button" class="btn btn-secondary"><i class="fa fa-lightbulb-o"></i>&nbsp; archiver</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>   <button type="button" class="btn btn-danger"> <i class="fa fa-rss"></i>&nbsp; Danger</button>
-                                    <button type="button" class="btn btn-success"><i class="fa fa-magic"></i>&nbsp; Success</button>
-                                    <button type="button" class="btn btn-secondary"><i class="fa fa-lightbulb-o"></i>&nbsp; archiver</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <style>.md-avatar.size-4 {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+    <br>
+
+
+    <div align="center" style="height:310pt;overflow:auto" id="cmt">
+        {% for message in app.flashes('success') %}
+            <div class="col-sm-5" style="margin-left: 30%;">
+                <div class="alert  alert-success alert-dismissible fade show" role="alert">
+                    <span class="badge badge-pill badge-success">Success</span>  &nbsp;{{ message }} .
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
 
 
+        {% endfor %}
+        <br><br><br>
+        <div class="w-80 text-center">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">ALL POSTERS </strong>
+                </div>
+                <br>
+                <form class="offset-md-3  form-inline d-flex justify-content-center md-form form-sm mt-0" style="width: 50%;">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" id="sc" aria-label="Search">
+                </form>
+                <br>
+                <div class="card-body">
+                    <table class="table w-100" id="#cmt"  >
+                        <thead class="thead-dark">
+                        <tr>
+
+                            <th scope="col"># ID  </th>
+                            <th scope="col"> Date </th>
+                            <th  scope="col">Owner</th>
+                            <th  scope="col">Victim Picture</th>
+                            <th class="text-center" scope="col">Resolved <i class="fa fa-minus-circle"></i></th>
+                            <th class="text-center" scope="col">Action <i class="fa fa-cog"></i></th>
+                        </tr>
+                        </thead>
 
 
 
 
+                        {% for p in post%}
+                            {% if   p.post.archiver!=1 %}
+                                <tr>
+                                    <td scope="row" align="left"><i class="fa fa-key"></i>  {{ p.post.id }}</td>
+                                    <td align="center">{{p.post.date_pub|format_datetime()}} </td>
+                                    <td align="center">{{ p.post.utilisateur.nom}} {{ p.post.utilisateur.prenom}}</td>
+                                    <td align="center">
+                                        <img  class="md-avatar size-4 mx-auto d-block" src= "/FINDMEPROJECT/public/uploads/images/{{p.mult.source}}" alt="Card image cap"/>
+
+                                    </td>
+                                    <td align="center"> <a href="{{ path('resolu',{'id':p.post.id}) }}" class="js-like">
+                                            {% if   p.post.statut=='R' %}
+                                                <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input" checked="checked" size="lg"  > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                            {% else%}
+                                                <label class="switch switch-text switch-success switch-pill" size="lg"  style="margin-top: 5px; "><input id="c1" type="checkbox" class="switch-input"  size="lg" > <span data-on="YES" data-off="NO" class="switch-label"></span> <span class="switch-handle"></span></label>
+                                            {% endif %}
+                                        </a></td>
+                                    <td align="center">  <a href="{{ path('details',{'id':p.post.id})}}">   <button type="button" class="btn btn-secondary" style="border-radius: 5px;"><i class="fa fa-rss"></i></i>&nbsp; Details</button></a>
+                                        <a onclick="deletef({{ p.post.id }})">     <button type="button" style="border-radius: 5px;" class="btn btn-danger"> <i class="fa fa-lightbulb-o"> </i>&nbsp; Hide </button></a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
 
 
 
+                    </table>
 
+                </div>
+            </div>
         </div>
-    </div><!-- .animated -->
-</div><!-- .content -->
+    </div>
+    {% block javascripts %}
+        <script src="http://code.jquery.com/jquery.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            function deletef(d){
+                console.log(d);
+                $.ajax({
+                        url: "{{ path('hide')}}",
+                        type: 'post',
+                        data: {d:d},
+                        dataType: 'json',
+                        success: function(da){
+                            $('#cmt').load(document.URL +  ' #cmt');
+                        }
+                    }
+                )
+            };
+            function onClickBtnLike(event){
+                event.preventDefault();
+                const url = this.href;
+                const spancount = this.querySelectorAll('.js-favoris');
+                icone = this.querySelector("input");
+                console.log(icone);
+                axios.get(url).then(function(response){
+                    if(icone.getAttribute('checked')==='checked') {icone.removeAttribute('checked');}
+                    else {
+                        icone.setAttribute('checked','checked');}
+                    console.log(response);
+                })
+            }
+            document.querySelectorAll('a.js-like').forEach(function (link) {
+                link.addEventListener('click',onClickBtnLike)
+            });
+            $(document).ready(function(){
+                $("#sc").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#cmt tr ").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
+    {% endblock %}
 {% endblock %}
