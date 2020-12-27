@@ -842,19 +842,20 @@ Website: http://emilcarlsson.se/
                 else{
                     if(data.id==={{lastmessage.id}})
                     {console.log('last version');
-
+                        lm={{lastmessage.id}};
                     }
                     else {
+                        console.log('No last version');
 
                         if(data.k !== -1)
                         {aff(data.message);
-                            console.log('No last version');
+                            lm = {{lastmessage.id}};
                             console.log(data.k);
                         }
                         else {
                             lm = {{lastmessage.id}};
-                            console.log('No last version');
-                            console.log(data.k);
+
+
                         }
                     }}
 
